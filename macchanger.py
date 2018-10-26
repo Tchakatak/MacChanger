@@ -24,12 +24,10 @@ def get_arguments():
 def gen_hex(length):
     return ''.join(random.choice('0123456789ABCDEF') for _ in range(length))
 
-def gen_00mac(): 
+
+def gen_00mac():
     generated = '00' + ":" + gen_hex(2) + ":" + gen_hex(2) + ":" + gen_hex(2) + ":" + gen_hex(2) + ":" + gen_hex(2)
     return generated
-
-
-
 
 
 def change_mac(interface, new_mac):
@@ -59,7 +57,6 @@ if options.new_mac == "RANDOM":
     options.new_mac = rand_mac
     print("[+] Random MAC specified : " + str(options.new_mac))
 
-
 change_mac(options.interface, options.new_mac)
 current_mac = get_current_mac(options.interface)
 
@@ -67,4 +64,3 @@ if current_mac != previous_mac:
     print("[+] MAC address was successfully changed to " + str(current_mac))
 else:
     print("[-] MAC address did not get changed.")
-
