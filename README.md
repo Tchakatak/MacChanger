@@ -1,6 +1,11 @@
-# macchanger
-a simple macchanger written in python
+# MacChanger
+A simple macchanger written in python
+
+About : 
+
+Python file who either take the make passed trough it with -m or randomly generate a mac. 
+
 
 Usage : 
 
-macchanger.py : -i [INTERFACE] -m [MAC] -h [HELP]
+macchanger.py : -i [INTERFACE] -m [MAC] [RANDOM] -h [HELP]
