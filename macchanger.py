@@ -52,7 +52,7 @@ options = get_arguments()
 #Get the current mac used by selected interface
 current_mac = get_current_mac(options.interface)
 previous_mac = current_mac
-print(options.verbose)
+
 if options.verbose == True :
     print("[+] Verbose On")
 
@@ -60,8 +60,10 @@ print("[+] Current MAC of" + str(options.interface) + " is " + str(current_mac))
 
 #If user select RANDOM as argument for mac, generate a random mac
 if options.new_mac == "RANDOM":
-    if options.verbose == "yes" :
-        print('[+] User selected RANDOM as an argument, Generating MAC')
+    #if options.verbose == "yes" :
+    #
+
+    print('[+] User selected RANDOM as an argument, Generating MAC')
     rand_mac = gen_00mac()
     options.new_mac = rand_mac
     print("[+] Random MAC Generated : " + str(options.new_mac))
