@@ -1,12 +1,9 @@
 #!/usr/bin/env python2
-# V1.0
 
 import subprocess
 import optparse
 import re
 import random
-
-# Parsing the user entry
 
 
 def get_arguments():
@@ -35,25 +32,20 @@ def get_arguments():
         exit(0)
     return options
 
-# Generate the random numbers
 
+def gen_hex(length):  # Generate the random numbers
 
-def gen_hex(length):
     return ''.join(random.choice('0123456789ABCDEF') for _ in range(length))
 
-# Generate mac using gen_hex for each pair
 
-
-def gen_00mac():
+def gen_00mac():  # Generate mac using gen_hex for each pair
     generated = '00' + ":" + \
         gen_hex(2) + ":" + gen_hex(2) + ":" + gen_hex(2) + \
         ":" + gen_hex(2) + ":" + gen_hex(2)
     return generated
 
-# Change mac to given arguments
 
-
-def change_mac(interface, new_mac):
+def change_mac(interface, new_mac):  # Change mac (ip)
     print("[+] Changing MAC address for "
           + interface + " to " + new_mac + " using ip")
     subprocess.call(["ip", "link", "set", interface, "down"])
@@ -61,17 +53,15 @@ def change_mac(interface, new_mac):
     subprocess.call(["ip", "link", "set", interface, "up"])
 
 
-def change_mac_legacy(interface, new_mac):
+def change_mac_legacy(interface, new_mac):  # Change mac (ifconfig)
     print("[+] Changing MAC address for " + interface
           + " to " + new_mac + " using ifconfig")
     subprocess.call(["ifconfig", interface, "down"])
     subprocess.call(["ifconfig", interface, "hw", "ether", new_mac])
     subprocess.call(["ifconfig", interface, "up"])
 
-# Get current mac of the interface provided by user
 
-
-def get_current_mac(interface, legacy):
+def get_current_mac(interface, legacy):  # Get mac from the origine iface
     if legacy is True:
         ifconfig_result = subprocess.check_output(["ifconfig", interface])
     else:
@@ -86,10 +76,7 @@ def get_current_mac(interface, legacy):
         print("[-] Could not read MAC address.")
 
 
-# Grab arguments and get previous mac
 options = get_arguments()
-
-# Get the current mac used by selected interface
 current_mac = get_current_mac(options.interface, options.legacy)
 previous_mac = current_mac
 
@@ -99,26 +86,20 @@ if options.verbose is True:
 print("[+] Current MAC of" + str(options.interface) + " is\
     " + str(current_mac))
 
-# If user select RANDOM as argument for mac, generate a random mac
-if options.new_mac == "RANDOM":
-    # if options.verbose == "yes" :
-    #
+if options.new_mac == "RANDOM":  # Random Mac Gen
 
     print('[+] User selected RANDOM as an argument, Generating MAC')
     rand_mac = gen_00mac()
     options.new_mac = rand_mac
     print("[+] Random MAC Generated : " + str(options.new_mac))
 
-# Change mac
-if options.legacy is True:
+if options.legacy is True:  # Change Mac
     change_mac_legacy(options.interface, options.new_mac)
 else:
     change_mac(options.interface, options.new_mac)
 
-# Get the current mac used by selected interface
 current_mac = get_current_mac(options.interface, options.legacy)
 
-# Check if the mac address was changed and print a message for the user
 if current_mac != previous_mac:
     print("[+] MAC address was successfully changed to " + str(current_mac))
 else:
