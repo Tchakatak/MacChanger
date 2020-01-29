@@ -3,7 +3,7 @@ A simple macchanger written in python
 
 About : 
 
-Python file who either take the make passed trough it with -m or randomly generate a mac. 
+Python file who either take the mac passed trough it as an argument -m or randomly generate a mac. 
 
 
 Usage : 
